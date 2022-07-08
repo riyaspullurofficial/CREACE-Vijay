@@ -122,6 +122,7 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
         builder.setNegativeButton("Cancel"){_,_->
            val position= viewHolder.adapterPosition
             //adapter.notifyItemChanged(position)
+            initRecyclerView()
         }
         builder.show()
     }
