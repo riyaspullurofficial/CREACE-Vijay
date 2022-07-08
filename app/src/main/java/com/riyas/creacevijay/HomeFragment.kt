@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +56,8 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
 
 
        productBinding.addBtn.setOnClickListener {
-            replaceFragment(AddProductFragment())
+           /* replaceFragment(AddProductFragment())*/
+           Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_addProductFragment)
         }
 
         val dao: ProductDao = ProductDatabase.getInstance(requireContext()).productDaoInProductDb
