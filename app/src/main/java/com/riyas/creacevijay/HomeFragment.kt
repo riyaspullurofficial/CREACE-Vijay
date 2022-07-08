@@ -53,6 +53,7 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
        productBinding.addBtn.setOnClickListener {
             replaceFragment(AddProductFragment())
         }

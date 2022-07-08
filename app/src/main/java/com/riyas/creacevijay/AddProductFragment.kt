@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.riyas.creacevijay.databinding.FragmentAddProductBinding
 import com.riyas.creacevijay.db.ProductDao
@@ -15,7 +16,9 @@ import com.riyas.creacevijay.viewmodel.ProductViewModel
 import com.riyas.creacevijay.viewmodel.ProductViewModelFactory
 
 open class AddProductFragment : Fragment() {
-
+    companion object{
+        lateinit var addProManager:FragmentManager
+    }
     lateinit var productViewModel: ProductViewModel
     lateinit var productBinding: FragmentAddProductBinding
     override fun onCreateView(
@@ -26,11 +29,14 @@ open class AddProductFragment : Fragment() {
         productBinding=DataBindingUtil.inflate(inflater,R.layout.fragment_add_product,container,false)
         // Inflate the layout for this fragment
         return productBinding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        addProManager = parentFragmentManager
         val dao:ProductDao=ProductDatabase.getInstance(requireContext()).productDaoInProductDb
         val repository=ProductRepository(dao)
         val factory=ProductViewModelFactory(repository)
@@ -43,4 +49,5 @@ open class AddProductFragment : Fragment() {
 
 
     }
+
 }

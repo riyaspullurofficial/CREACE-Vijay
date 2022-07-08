@@ -2,6 +2,7 @@ package com.riyas.creacevijay.viewmodel
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +29,14 @@ class ProductViewModel(private val repository: ProductRepository):ViewModel(),Ob
         val productName= inputProductName.value!!
         insert(Product(0,productName))
         inputProductName.value=null
-  
+
+
+
+            val manager = AddProductFragment.addProManager
+            val transaction = manager.beginTransaction()
+            transaction.replace(com.riyas.creacevijay.R.id.fragmentFL, HomeFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
 
 
     }
