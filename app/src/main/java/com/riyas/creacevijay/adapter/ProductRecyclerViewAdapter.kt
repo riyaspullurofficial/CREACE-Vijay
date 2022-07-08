@@ -11,7 +11,7 @@ import com.riyas.creacevijay.R
 import com.riyas.creacevijay.databinding.ProductListCardBinding
 import com.riyas.creacevijay.db.Product
 
-class ProductRecyclerViewAdapter (private val productList: List<Product>):ListAdapter<Product,MyViewHolder>(ProductDiffUtil()) {
+class ProductRecyclerViewAdapter (private val productList: List<Product>,val clickListener: ClickListener):ListAdapter<Product,MyViewHolder>(ProductDiffUtil()) {
 
 
 
@@ -25,10 +25,19 @@ class ProductRecyclerViewAdapter (private val productList: List<Product>):ListAd
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(productList[position])
+        holder.itemView.setOnClickListener {
+                clickListener.onItemClick(productList[position])
+        }
+
+
+
     }
 
     override fun getItemCount(): Int = productList.size
 
+    interface ClickListener{
+        fun onItemClick(product: Product)
+    }
 
 
 }

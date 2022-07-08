@@ -39,6 +39,11 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+    lintOptions {
+        checkOnly("NewApi", "HandlerLeak")
+        baseline(file("lint-baseline.xml"))
+        abortOnError false
+    }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             freeCompilerArgs += [

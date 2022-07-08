@@ -1,20 +1,25 @@
 package com.riyas.creacevijay
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.riyas.creacevijay.adapter.MyViewHolder
 import com.riyas.creacevijay.adapter.ProductRecyclerViewAdapter
 
 import com.riyas.creacevijay.databinding.FragmentHomeBinding
+import com.riyas.creacevijay.db.Product
 import com.riyas.creacevijay.db.ProductDao
 import com.riyas.creacevijay.db.ProductDatabase
 import com.riyas.creacevijay.repository.ProductRepository
@@ -22,7 +27,7 @@ import com.riyas.creacevijay.viewmodel.ProductViewModel
 import com.riyas.creacevijay.viewmodel.ProductViewModelFactory
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
 
    lateinit var productViewModel: ProductViewModel
    private lateinit var productBinding: FragmentHomeBinding
@@ -74,14 +79,53 @@ class HomeFragment : Fragment() {
         productViewModel.products.observe(viewLifecycleOwner, Observer {
             Log.d("Riyasviewmodel",it.toString())
 
-            productBinding.recyclerProductsID.adapter=ProductRecyclerViewAdapter(it)
+            productBinding.recyclerProductsID.adapter=ProductRecyclerViewAdapter(it,this)
 
 
+            //right swipe delete
+            val itemSwipe=object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showDialog(viewHolder)
+            }
+
+
+        }
+            val swap=ItemTouchHelper(itemSwipe)
+            swap.attachToRecyclerView(productBinding.recyclerProductsID)
 
         })
+
+    }
+    private fun showDialog(viewHolder: RecyclerView.ViewHolder){
+                val builder=AlertDialog.Builder(activity)
+                builder.setTitle("Delete Item")
+        builder.setMessage("Are You sure to delete")
+                builder.setPositiveButton("Confirm"){ _, _ ->
+
+                    val position=viewHolder.adapterPosition
+                    //listData.removeAt(position
+                    //adapter.notifyItemRemoved(position)
+                }
+        builder.setNegativeButton("Cancel"){_,_->
+           val position= viewHolder.adapterPosition
+            //adapter.notifyItemChanged(position)
+        }
+        builder.show()
     }
     private fun initRecyclerView(){
-        productBinding.recyclerProductsID.layoutManager=LinearLayoutManager(requireContext())
+        productBinding.recyclerProductsID.layoutManager=LinearLayoutManager(activity) //requireContext
         displayProductList()
+    }
+
+    override fun onItemClick(product: Product) {
+       Toast.makeText(requireContext(),"Item clicked",Toast.LENGTH_SHORT).show()
     }
 }
