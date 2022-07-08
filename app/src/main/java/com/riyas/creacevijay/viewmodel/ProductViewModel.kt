@@ -44,5 +44,20 @@ class ProductViewModel(private val repository: ProductRepository):ViewModel(),Ob
 
     }
 
+    fun delete(product: Product) = viewModelScope.launch {
+        val noOfRowsDeleted = repository.delete(product)
+
+    /*    if(noOfRowsDeleted>0){
+            inputName.value = null
+            inputEmail.value = null
+            isUpdateOrDelete = false
+            saveOrUpdateButtonText.value = "Save"
+            clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("$noOfRowsDeleted Row Deleted Successfully")
+        }else{
+            statusMessage.value = Event("Error Occurred")
+        }*/
+
+    }
 
 }

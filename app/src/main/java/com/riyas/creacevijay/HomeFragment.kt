@@ -25,12 +25,14 @@ import com.riyas.creacevijay.db.ProductDatabase
 import com.riyas.creacevijay.repository.ProductRepository
 import com.riyas.creacevijay.viewmodel.ProductViewModel
 import com.riyas.creacevijay.viewmodel.ProductViewModelFactory
+import java.text.FieldPosition
 
 
 class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
 
    lateinit var productViewModel: ProductViewModel
    private lateinit var productBinding: FragmentHomeBinding
+   private lateinit var productDelete:Product
 /*    lateinit var binding:FragmentHomeBinding*/
 
     override fun onCreateView(
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                showDialog(viewHolder)
+                showDialog(viewHolder,it)
             }
 
 
@@ -104,13 +106,15 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
         })
 
     }
-    private fun showDialog(viewHolder: RecyclerView.ViewHolder){
+    private fun showDialog(viewHolder: RecyclerView.ViewHolder,product:List<Product> ){
                 val builder=AlertDialog.Builder(activity)
                 builder.setTitle("Delete Item")
         builder.setMessage("Are You sure to delete")
                 builder.setPositiveButton("Confirm"){ _, _ ->
 
                     val position=viewHolder.adapterPosition
+                    productViewModel.delete(product[position])
+                    initRecyclerView()
                     //listData.removeAt(position
                     //adapter.notifyItemRemoved(position)
                 }
