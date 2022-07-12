@@ -55,10 +55,16 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
         super.onViewCreated(view, savedInstanceState)
 
 
-       productBinding.addBtn.setOnClickListener {
-           /* replaceFragment(AddProductFragment())*/
-           Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_addProductFragment)
-        }
+
+         productBinding.addBtn.setOnClickListener {
+             /* replaceFragment(AddProductFragment())*/
+             try{
+                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_addProductFragment)
+             }catch (e:Exception){
+                 Log.d("error Button click",e.message.toString())
+             }
+             initRecyclerView()
+         }
 
         val dao: ProductDao = ProductDatabase.getInstance(requireContext()).productDaoInProductDb
         val repository= ProductRepository(dao)
@@ -72,17 +78,11 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
         initRecyclerView()
 
     }
-    private fun replaceFragment(fragment: Fragment) {
 
-        val manager = parentFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(com.riyas.creacevijay.R.id.fragmentFL, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
     private fun  displayProductList(){
         productViewModel.products.observe(viewLifecycleOwner, Observer {
             Log.d("Riyasviewmodel",it.toString())
+
 
             productBinding.recyclerProductsID.adapter=ProductRecyclerViewAdapter(it,this)
 
@@ -130,10 +130,26 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
     }
     private fun initRecyclerView(){
         productBinding.recyclerProductsID.layoutManager=LinearLayoutManager(activity) //requireContext
+
         displayProductList()
     }
 
     override fun onItemClick(product: Product) {
        Toast.makeText(requireContext(),"Item clicked",Toast.LENGTH_SHORT).show()
+    }
+
+    /*override fun onResume() {
+        super.onResume()
+        initRecyclerView()
+    }*/
+
+    private fun replaceFragment(fragment: Fragment) {
+
+        val manager = parentFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(com.riyas.creacevijay.R.id.fragmentFL, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+
     }
 }

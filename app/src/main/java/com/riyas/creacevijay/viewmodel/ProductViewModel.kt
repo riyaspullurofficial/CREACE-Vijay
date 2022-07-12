@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import com.riyas.creacevijay.AddProductFragment
 import com.riyas.creacevijay.HomeFragment
+import com.riyas.creacevijay.R
 import com.riyas.creacevijay.db.Product
 import com.riyas.creacevijay.repository.ProductRepository
 import kotlinx.coroutines.launch
@@ -32,12 +34,13 @@ class ProductViewModel(private val repository: ProductRepository):ViewModel(),Ob
 
 
 
-            val manager = AddProductFragment.addProManager
+            /*val manager = AddProductFragment.addProManager
             val transaction = manager.beginTransaction()
             transaction.replace(com.riyas.creacevijay.R.id.fragmentFL, HomeFragment())
             transaction.addToBackStack(null)
-            transaction.commit()
-
+            transaction.commit()*/
+        val aa=AddProductFragment.contextAdd
+         Navigation.findNavController(aa).navigate(R.id.action_addProductFragment_to_homeFragment)
 
     }
     fun insert(product: Product) =viewModelScope.launch {

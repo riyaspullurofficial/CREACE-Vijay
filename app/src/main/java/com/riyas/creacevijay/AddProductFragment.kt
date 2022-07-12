@@ -1,5 +1,6 @@
 package com.riyas.creacevijay
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,9 +15,11 @@ import com.riyas.creacevijay.db.ProductDatabase
 import com.riyas.creacevijay.repository.ProductRepository
 import com.riyas.creacevijay.viewmodel.ProductViewModel
 import com.riyas.creacevijay.viewmodel.ProductViewModelFactory
+import kotlin.coroutines.coroutineContext
 
 open class AddProductFragment : Fragment() {
     companion object{
+        lateinit var contextAdd:View
         lateinit var addProManager:FragmentManager
     }
     lateinit var productViewModel: ProductViewModel
@@ -30,11 +33,12 @@ open class AddProductFragment : Fragment() {
         // Inflate the layout for this fragment
         return productBinding.root
 
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        contextAdd=view
 
         addProManager = parentFragmentManager
         val dao:ProductDao=ProductDatabase.getInstance(requireContext()).productDaoInProductDb
