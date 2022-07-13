@@ -10,12 +10,14 @@ import androidx.navigation.Navigation
 import com.riyas.creacevijay.AddProductFragment
 import com.riyas.creacevijay.HomeFragment
 import com.riyas.creacevijay.R
+import com.riyas.creacevijay.databinding.FragmentAddProductBinding
 import com.riyas.creacevijay.db.Product
 import com.riyas.creacevijay.repository.ProductRepository
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository):ViewModel(),Observable {
 
+    lateinit var bnd:FragmentAddProductBinding
     val products=repository.products
 
     @Bindable

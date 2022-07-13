@@ -152,4 +152,9 @@ class HomeFragment : Fragment(),ProductRecyclerViewAdapter.ClickListener {
         transaction.commit()
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        initRecyclerView()
+    }
 }
